@@ -1,9 +1,5 @@
 name: frontend Build
-on:
-  push:
-    branches:
-      - 'master'
-      - 'origin'
+on: [push]
 jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
