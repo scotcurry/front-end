@@ -6,7 +6,8 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():  # put application's code here
+def hello_world():
+    print('Launching app!')
     current_time = datetime.datetime.now()
     user_agent = request.headers.get('User-Agent')
     return render_template('index.html', title='Index Page', current_time=current_time,
