@@ -29,7 +29,7 @@ jobs:
           context: .
           push: true
           # Don't forget to set the IMAGE_NAME environment variable.
-          tags: ${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.run_number}}
+          tags: ${{ github.actor }}/curryware-front-end:${{ github.run_number}}
           labels: |
             org.opencontainers.image.source=github.com/scotcurry/front-end
             org.opencontainers.image.revision=${{ github.sha }}
