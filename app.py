@@ -3,6 +3,7 @@ import datetime
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+application = app
 
 
 @app.route('/')
@@ -14,5 +15,5 @@ def hello_world():
                            user_agent=user_agent)
 
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()

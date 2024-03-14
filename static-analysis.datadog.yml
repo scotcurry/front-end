@@ -15,3 +15,4 @@ rulesets:
   - python-inclusive
   - python-pandas
   - python-security
+  - docker-best-practices
