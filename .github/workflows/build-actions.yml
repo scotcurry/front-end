@@ -37,5 +37,3 @@ jobs:
             tags.datadoghq.com/env: prod
             tags.datadoghq.com/version: $${{ github.run_number }}
             tags.datadoghq.com/service: curryware-front-end
-          annotations:
-            admission.datadoghq.com/python-lib.version:v2.7.4
