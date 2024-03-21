@@ -1,6 +1,6 @@
 FROM python:3.11.8-slim-bookworm
 
-EXPOSE 5000
+EXPOSE 8000
 
 WORKDIR /app
 COPY ../requirements.txt requirements.txt
