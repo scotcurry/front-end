@@ -34,6 +34,6 @@ jobs:
           labels: |
             org.opencontainers.image.source=github.com/scotcurry/front-end
             org.opencontainers.image.revision=${{ github.sha }}
-            tags.datadoghq.com/env: prod
-            tags.datadoghq.com/version: ${{ github.run_number }}
-            tags.datadoghq.com/service: curryware-front-end
+            tags.datadoghq.com/env=prod
+            tags.datadoghq.com/version=${{ github.run_number }}
+            tags.datadoghq.com/service=curryware-front-end
