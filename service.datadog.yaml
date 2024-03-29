@@ -1,0 +1,21 @@
+schema-version: v2.2
+dd-service: curryware-front-end
+team: curryware-team
+application: curryware-ff
+tier: "1"
+type: web
+languages:
+  - python
+contacts:
+  - type: slack
+    contact: https://currywareinc.slack.com/archives/C06RZ7EE8KW
+  - type: email
+    contact: scurry@curryware.org
+links:
+  - name: Runbook
+    type: runbook
+    url: http://runbook/shopping-cart
+  - name: Source
+    type: repo
+    provider: github
+    url: https://github.com/scotcurry/front-end
