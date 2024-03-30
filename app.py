@@ -21,6 +21,8 @@ def hello_world():
     current_time = datetime.datetime.now()
     user_agent = request.headers.get('User-Agent')
     logger.info('User agent: {}'.format(user_agent))
+    current_time = (str(current_time.hour) + ':' + str(current_time.minute) + ':' +
+                    str(current_time.second))
     return render_template('index.html', title='Index Page', current_time=current_time,
                            user_agent=user_agent)
 
