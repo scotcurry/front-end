@@ -2,6 +2,9 @@ import datetime
 import logging
 
 from flask import Flask, render_template, request
+from ddtrace.runtime import RuntimeMetrics
+
+RuntimeMetrics.enable()
 
 app = Flask(__name__)
 application = app
@@ -16,7 +19,7 @@ logger.info('---curryware-front-end start---')
 
 
 @app.route('/')
-def hello_world():
+def index_page():
     logger.info('Launching app!')
     current_time = datetime.datetime.now()
     user_agent = request.headers.get('User-Agent')

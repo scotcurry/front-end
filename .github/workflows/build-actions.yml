@@ -22,8 +22,8 @@ jobs:
         with:
           dd_api_key: ${{ secrets.DD_API_KEY }}
           dd_app_key: ${{ secrets.DD_APP_KEY }}
-          dd_service: prod
           dd_env: ci
+          dd_service: curryware-front-end
           dd_site: datadoghq.com
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
