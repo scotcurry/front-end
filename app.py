@@ -1,3 +1,4 @@
+import os
 import datetime
 import logging
 
@@ -22,12 +23,19 @@ logger.info('---curryware-front-end start---')
 def index_page():
     logger.info('Launching app!')
     current_time = datetime.datetime.now()
+    local_time = current_time.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
     user_agent = request.headers.get('User-Agent')
     logger.info('User agent: {}'.format(user_agent))
-    current_time = (str(current_time.hour) + ':' + str(current_time.minute) + ':' +
-                    str(current_time.second))
+    current_date = '{}/{}/{}'.format(str(local_time.month), str(local_time.day), str(local_time.year),
+                                     str(local_time.year))
+    current_time = '{}:{}:{}'.format(str(local_time.hour), str(local_time.minute),
+                                     str(local_time.second))
+
+    log_environment_variable = os.environ.get('DD_LOGS_INJECTION')
+
     return render_template('index.html', title='Index Page', current_time=current_time,
-                           user_agent=user_agent)
+                           current_date=current_date, user_agent=user_agent,
+                           logs_injection_variable=log_environment_variable)
 
 
 # if __name__ == '__main__':

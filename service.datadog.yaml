@@ -4,6 +4,7 @@ team: curryware-team
 application: curryware-ff
 tier: "1"
 type: web
+lifecycle: "production"
 languages:
   - python
 contacts:

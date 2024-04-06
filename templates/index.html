@@ -3,13 +3,12 @@
 {% block content %}
 <article>
   <div class="article-settings">
+    <p>Current Date: {{  current_date }}</p>
     <p>Current Time: {{ current_time }}</p>
+    <p class="font-weight-bold">DD_LOGS_INJECTION</p>
+    <p>{{ logs_injection_variable }}</p>
     <p>User Agent: {{ user_agent }}</p>
     <p class="lead">Hit refresh to update the time (and send a new trace to Datadog)</p>
   </div>
 </article>
-
-<aside>
-  <p>Title of the page should be Index Page</p>
-</aside>
 {% endblock %}
