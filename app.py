@@ -1,6 +1,7 @@
 import os
 import datetime
 import logging
+from pytz import timezone
 
 from flask import Flask, render_template, request
 from ddtrace import tracer
@@ -27,7 +28,7 @@ logger.info('---curryware-front-end start---')
 def index_page():
     logger.info('Launching app!')
     current_time = datetime.datetime.now()
-    local_time = current_time.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+    local_time = datetime.datetime.now(timezone('US/Eastern'))
     user_agent = request.headers.get('User-Agent')
     # logger.info('User agent: {}'.format(user_agent))
     current_date = '{}/{}/{}'.format(str(local_time.month), str(local_time.day), str(local_time.year),
