@@ -1,6 +1,7 @@
 import os
 import datetime
 import logging
+
 from pytz import timezone
 
 from flask import Flask, render_template, request
@@ -20,10 +21,11 @@ FORMAT = ('%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] '
 
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger('curryware-front-end')
-logger.setLevel(logging.DEBUG)
+logger.level = logging.DEBUG
 logger.info('---curryware-front-end start---')
 
 
+@tracer.wrap()
 @app.route('/')
 def index_page():
     logger.info('Launching app!')
