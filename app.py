@@ -22,7 +22,6 @@ FORMAT = ('%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] '
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger('curryware-front-end')
 logger.level = logging.DEBUG
-logger.info('---curryware-front-end start---')
 
 
 @tracer.wrap()
