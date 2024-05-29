@@ -1,4 +1,5 @@
 import os
+import requests
 import datetime
 import logging
 
@@ -28,12 +29,11 @@ logger.level = logging.DEBUG
 @app.route('/')
 def index_page():
     logger.info('Launching app!')
-    current_time = datetime.datetime.now()
     local_time = datetime.datetime.now(timezone('US/Eastern'))
     user_agent = request.headers.get('User-Agent')
     # logger.info('User agent: {}'.format(user_agent))
-    current_date = '{}/{}/{}'.format(str(local_time.month), str(local_time.day), str(local_time.year),
-                                     str(local_time.year))
+    current_date = '{}/{}/{}'.format(str(local_time.month), str(local_time.day),
+                                     str(local_time.year), str(local_time.year))
     current_time = '{}:{}:{}'.format(str(local_time.hour), str(local_time.minute),
                                      str(local_time.second))
 
@@ -43,3 +43,11 @@ def index_page():
                            current_date=current_date, user_agent=user_agent,
                            logs_injection_variable=log_environment_variable)
 
+
+@app.route('/getteams', methods=['GET'])
+def get_teams():
+
+    get_teams_url = 'http://curryware-java:8080/teaminfo/getteams'
+    response = requests.get(get_teams_url, timeout=10)
+    response_json = response.json()
+    return response_json
