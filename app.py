@@ -47,7 +47,14 @@ def index_page():
 @app.route('/getteams', methods=['GET'])
 def get_teams():
 
+    logger.info('Calling get_teams')
     get_teams_url = 'http://curryware-java:8080/teaminfo/getteams'
     response = requests.get(get_teams_url, timeout=10)
     response_json = response.json()
     return response_json
+
+
+@app.route('/throw_error', methods=['GET'])
+def throw_error():
+    logger.info('Calling throw_error')
+    scot = 1 / 0
