@@ -60,10 +60,11 @@ def throw_error():
     scot = 1 / 0
     return scot
 
+
 @app.route('/throw_java_error', methods=['GET'])
 def throw_java_error():
     logger.info('Calling throw_java_error')
-    java_error_url = "http://localhost:8080/jokes/throw_java_error"
+    java_error_url = "http://curryware-java:8080/jokes/throw_java_error"
     response = requests.get(java_error_url, timeout=10)
     response_json = response.json()
     return response_json
