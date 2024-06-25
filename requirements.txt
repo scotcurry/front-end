@@ -1,7 +1,7 @@
 Flask==3.0.3
-ddtrace==2.8.5
+ddtrace==2.9.2
 gunicorn==22.0.0
-pip==24.0
+pip==24.1
 pytz==2024.1
 requests==2.32.3
-setuptools==70.0.0
+setuptools==70.1.1
