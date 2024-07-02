@@ -73,7 +73,10 @@ def throw_java_error():
 @app.route('/get_firebase_auth_key', methods=['GET'])
 def get_firebase_auth_key():
     logger.info('Calling get_firebase_auth_key')
-    auth_key_url = 'http://curryware-firebase-auth:8002/get_oauth_token'
-    response = requests.get(auth_key_url, timeout=10)
-    response_json = response.json()
-    return response_json
+    try:
+        auth_key_url = 'http://curryware-firebase-auth:8002/get_oauth_token'
+        response = requests.get(auth_key_url, timeout=10)
+        response_json = response.json()
+        return response_json
+    except ValueError as exception:
+        return 'Error getting firebase auth key!'
