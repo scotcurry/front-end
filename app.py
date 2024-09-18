@@ -1,4 +1,6 @@
 import os
+from json import JSONDecodeError
+
 import requests
 import datetime
 import logging
@@ -14,11 +16,18 @@ RuntimeMetrics.enable()
 app = Flask(__name__)
 application = app
 
-FORMAT = ('%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] '
-          '[dd.service=%(dd.service)s dd.env=%(dd.env)s '
-          'dd.version=%(dd.version)s '
-          'dd.trace_id=%(dd.trace_id)s dd.span_id=%(dd.span_id)s] '
-          '- %(message)s')
+dev_environment = os.environ.get('DEVELOPMENT_ENVIRONMENT')
+
+if dev_environment == 'true':
+    FORMAT = ('%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] - '
+              '%(message)s')
+else:
+    FORMAT = ('%(asctime)s %(levelname)s [%(name)s] [%(filename)s:%(lineno)d] '
+              '[dd.service=%(dd.service)s dd.env=%(dd.env)s '
+              'dd.version=%(dd.version)s '
+              'dd.trace_id=%(dd.trace_id)s dd.span_id=%(dd.span_id)s] '
+              '- %(message)s')
+
 
 logging.basicConfig(format=FORMAT)
 logger = logging.getLogger('curryware-front-end')
@@ -80,3 +89,35 @@ def get_firebase_auth_key():
         return response_json
     except ValueError as exception:
         return 'Error getting firebase auth key!'
+
+
+@app.route('/webhook_dora_incident', methods=['POST'])
+def create_dora_incident_event():
+    logger.info('Calling create_dora_incident_event')
+
+    # Retrieve the relevant fields
+    datadog_service = ''
+    datadog_team = ''
+    incident_description = ''
+    incident_severity = ''
+
+    try:
+        incident_content = request.get_json()
+        datadog_service = incident_content['data']['attributes']['services'][0]
+        datadog_team = incident_content['data']['attributes']['team']
+        incident_description = incident_content['data']['attributes']['incident_description']
+        incident_severity = incident_content['data']['attributes']['severity']
+        logger.info('Datadog Service: {}, Datadog Team: {}, Description: {}, Severity: {}'
+                    .format(datadog_service, datadog_team, incident_description,
+                            incident_severity))
+    except JSONDecodeError as error:
+        logger.error('JSON Decode Error: {}'.format(error))
+        return 'JSON Decode Error!'
+
+    if datadog_service != '' and datadog_team != '':
+        dora_json = {'dora': 'input'}
+
+
+    # try:
+    #     dora_incident_url = 'http://curryware-dora-webhook:8000/create_dora_incident'
+    #     response = requests.get(dora_incident_url, timeout=10)

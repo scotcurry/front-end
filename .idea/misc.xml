@@ -6,8 +6,12 @@
   <component name="ManuallyLinkedServices">
     <option name="autoLinkedServices">
       <set>
-        <option value="curryware-front-end" />
         <option value="requests" />
+      </set>
+    </option>
+    <option name="services">
+      <set>
+        <option value="curryware-front-end" />
       </set>
     </option>
   </component>
