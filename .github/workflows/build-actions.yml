@@ -63,7 +63,7 @@ jobs:
           # Site to test sed commands - https://sed.js.org/
           echo 'Setting Version: ${{ github.run_number }}'
           sed -i -e 's/version: \"[[:digit:]]*\"/version: \"${{ github.run_number }}\"/g' ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
-          echo 'Updating 
+          echo 'Updating image version'
           sed -i -e 's/scotcurry4\/curryware-front-end:[[:digit:]]*/scotcurry4\/curryware-front-end:${{ github.run_number }}/g' ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
           cat ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
 
