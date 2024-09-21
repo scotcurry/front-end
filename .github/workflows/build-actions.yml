@@ -66,18 +66,8 @@ jobs:
           echo 'Updating image version'
           sed -i -e 's/scotcurry4\/curryware-front-end:[[:digit:]]*/scotcurry4\/curryware-front-end:${{ github.run_number }}/g' ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
           cat ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
-
-      - name: Commit manifest
-        uses: actions/checkout@v4
-        with:
-          repository: 'scotcurry/k8-manifests'
-          path: '${{ github.workspace }}/k8-manifests'
-          token: ${{ secrets.GH_ACCESS_TOKEN }}
-          ref: 'main'
-      - run: |
-          cd ${{ github.workspace }}/k8-manifests
           echo "Committed curryware-front-end $(date +"%Y-%m-%d %T")" > commit_file.txt
           git config user.name "scotcurry"
-          git config user.email "scotcurry4#gmail.com"
+          git config user.email "scotcurry4@gmail.com"
           git commit -F commit_file.txt .
           git push
