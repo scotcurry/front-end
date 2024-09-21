@@ -65,7 +65,12 @@ jobs:
           cat ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
 
       - name: Commit manifest
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
+        with:
+          repository: 'scotcurry/k8-manifests'
+          path: '${{ github.workspace }}/k8-manifests'
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          ref: 'main'
       - run:
           cd ${{ github.workspace }}/k8-manifests
           echo "Committed curryware-front-end $(date +"%Y-%m-%d %T")" > commit_file.txt
