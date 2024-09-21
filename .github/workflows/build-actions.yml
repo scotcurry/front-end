@@ -46,3 +46,30 @@ jobs:
             tags.datadoghq.com/env=prod
             tags.datadoghq.com/version=${{ github.run_number }}
             tags.datadoghq.com/service=curryware-front-end
+
+      # Check out the K8s manifest files for updating
+      - name: Get manifest files
+        uses: actions/checkout@v4
+        with:
+          repository: 'scotcurry/k8-manifests'
+          path: '${{ github.workspace }}/k8-manifests'
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          ref: 'main'
+      - run: |
+          echo ${{ github.workspace }}
+          ls ${{ github.workspace }}
+          # sed pattern to update manifest versions - 's/version: \"[[:digit:]]*\"/version: \"20\"/g'
+          # Site to test sed commands - https://sed.js.org/
+          sed -i -e 's/version: \"[[:digit:]]*\"/version: \"${{ github.run_number }}\"/g' ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
+          sed -i -e 's/scotcurry4\/curryware-front-end:[[:digit:]]*/scotcurry4\/curryware-front-end:${{ github.run_number }}' ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
+          cat ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
+
+      - name: Commit manifest
+      - uses: actions/checkout@v4
+      - run:
+          cd ${{ github.workspace }}/k8-manifests
+          echo "Committed curryware-front-end $(date +"%Y-%m-%d %T")" > commit_file.txt
+          git config user.name "scotcurry4@gmail.com"
+          git config user.email "scotcurry4#gmail.com"
+          git commit -F commit_file.txt .
+          git push

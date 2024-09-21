@@ -58,6 +58,7 @@ def get_teams():
 
     logger.info('Calling get_teams')
     get_teams_url = 'http://curryware-java:8080/teaminfo/getteams'
+    logger.info('get_teams_url: {}'.format(get_teams_url))
     response = requests.get(get_teams_url, timeout=10)
     response_json = response.json()
     return response_json
