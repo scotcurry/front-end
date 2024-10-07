@@ -66,7 +66,7 @@ jobs:
           echo 'Updating image version'
           sed -i -e 's/scotcurry4\/curryware-front-end:[[:digit:]]*/scotcurry4\/curryware-front-end:${{ github.run_number }}/g' ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
           cat ${{ github.workspace }}/k8-manifests/curryware-front-end-deployment.yaml
-          echo "Committed curryware-front-end $(date +"%Y-%m-%d %T")" > commit_file.txt
+          echo "Committed curryware-front-end $(date +"%Y-%m-%d %T") - Short SHA: ${{ github.sha }}" > commit_file.txt
           git config user.name "scotcurry"
           git config user.email "scotcurry4@gmail.com"
           git commit -F commit_file.txt .

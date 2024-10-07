@@ -64,6 +64,16 @@ def get_teams():
     return response_json
 
 
+@app.route('/getstandings', methods=['GET'])
+def get_standings():
+
+    logger.info('Calling get_standings')
+    get_standings_url = 'http://curryware-yahoo-api:8087/YahooApi/GetLeagueStandings'
+    logger.info('get_standings_url: {}'.format(get_standings_url))
+    response = requests.get(get_standings_url, timeout=10)
+    return response
+
+
 @app.route('/throw_error', methods=['GET'])
 def throw_error():
     logger.info('Calling throw_error')
