@@ -71,7 +71,7 @@ def get_standings():
     logger.info('Calling get_standings')
     get_standings_url = 'http://curryware-yahoo-api:8087/YahooApi/GetLeagueStandings'
     logger.info('get_standings_url: {}'.format(get_standings_url))
-    response = requests.get(get_standings_url, timeout=10)
+    response = requests.get(get_standings_url, timeout=100)
     return response
 
 
@@ -80,7 +80,7 @@ def get_oauth_token():
     logger.info('Calling get_oauth_token')
     get_oauth_token_url = 'http://curryware-yahoo-api:8087/YahooApi/GetOAuthToken'
     logger.info('get_oauth_token_url: {}'.format(get_oauth_token_url))
-    response = requests.get(get_oauth_token_url, timeout=10)
+    response = requests.get(get_oauth_token_url, timeout=100)
     response_json = response.json()
     return response_json
 
