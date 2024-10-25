@@ -1,4 +1,5 @@
 import os
+from crypt import methods
 from json import JSONDecodeError
 
 import requests
@@ -74,6 +75,16 @@ def get_standings():
     return response
 
 
+@app.route('/getoauthtoken', methods=['GET'])
+def get_oauth_token():
+    logger.info('Calling get_oauth_token')
+    get_oauth_token_url = 'http://curryware-yahoo-api:8087/YahooApi/GetOAuthToken'
+    logger.info('get_oauth_token_url: {}'.format(get_oauth_token_url))
+    response = requests.get(get_oauth_token_url, timeout=10)
+    response_json = response.json()
+    return response_json
+
+
 @app.route('/throw_error', methods=['GET'])
 def throw_error():
     logger.info('Calling throw_error')
@@ -94,7 +105,7 @@ def throw_java_error():
 def get_firebase_auth_key():
     logger.info('Calling get_firebase_auth_key')
     try:
-        auth_key_url = 'http://curryware-firebase-auth:8002/get_oauth_token'
+        auth_key_url = 'http://curryware-firebase-auth-service/get_oauth_token'
         response = requests.get(auth_key_url, timeout=10)
         response_json = response.json()
         return response_json
