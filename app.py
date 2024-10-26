@@ -85,7 +85,7 @@ def get_oauth_token():
         response_json = response.json()
         return response_json
     except JSONDecodeError as decodeError:
-        logger.error('JSON Decode Error: {}'.format(decodeError))
+        logger.error('JSON Decode Error: {}'.format(decodeError.msg))
         return 'JSON Decode Error!'
 
 
