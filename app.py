@@ -77,12 +77,16 @@ def get_standings():
 
 @app.route('/getoauthtoken', methods=['GET'])
 def get_oauth_token():
+
+    headers = request.headers
+    for key, value in headers.items():
+        logger.info(f'Key: {key}, Value: {value}')
     logger.info('Calling get_oauth_token')
     get_oauth_token_url = 'http://curryware-yahoo-api:8087/YahooApi/GetOAuthToken'
     logger.info('get_oauth_token_url: {}'.format(get_oauth_token_url))
     response = requests.get(get_oauth_token_url, timeout=10)
     try:
-        response_json = response.json()
+        response_json = response.text
         return response_json
     except JSONDecodeError as decodeError:
         logger.error('JSON Decode Error: {}'.format(decodeError.msg))
