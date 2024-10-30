@@ -87,7 +87,7 @@ def get_oauth_token():
 
     headers = request.headers
     for key, value in headers.items():
-        logger.info(f'Key: {key}, Value: {value}')
+        logger.debug(f'Key: {key}, Value: {value}')
     logger.info('Calling get_oauth_token')
     get_oauth_token_url = 'http://curryware-yahoo-api:8087/YahooApi/GetOAuthToken'
     logger.info('get_oauth_token_url: {}'.format(get_oauth_token_url))
