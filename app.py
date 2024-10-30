@@ -11,6 +11,7 @@ from pytz import timezone
 from flask import Flask, render_template, request
 from ddtrace import tracer
 from ddtrace.runtime import RuntimeMetrics
+from urllib3.exceptions import HTTPError
 
 RuntimeMetrics.enable()
 
@@ -71,8 +72,14 @@ def get_standings():
     logger.info('Calling get_standings')
     get_standings_url = 'http://curryware-yahoo-api:8087/YahooApi/GetLeagueStandings'
     logger.info('get_standings_url: {}'.format(get_standings_url))
-    response = requests.get(get_standings_url, timeout=10)
-    return response
+    response_text = ''
+    try:
+        response = requests.get(get_standings_url, timeout=10)
+        response_text = response.text
+    except HTTPError as httpError:
+        logger.error(httpError)
+
+    return response_text
 
 
 @app.route('/getoauthtoken', methods=['GET'])
@@ -84,13 +91,17 @@ def get_oauth_token():
     logger.info('Calling get_oauth_token')
     get_oauth_token_url = 'http://curryware-yahoo-api:8087/YahooApi/GetOAuthToken'
     logger.info('get_oauth_token_url: {}'.format(get_oauth_token_url))
-    response = requests.get(get_oauth_token_url, timeout=10)
     try:
-        response_json = response.text
-        return response_json
+        response = requests.get(get_oauth_token_url, timeout=10)
+        if response.status_code != 200:
+            logger.error('Error getting oauth token!')
+        else:
+            response_json = response.json()
+            return response_json
+    except HTTPError as httpError:
+        logger.error(httpError)
     except JSONDecodeError as decodeError:
         logger.error('JSON Decode Error: {}'.format(decodeError.msg))
-        return 'JSON Decode Error!'
 
 
 @app.route('/throw_error', methods=['GET'])
