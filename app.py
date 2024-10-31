@@ -86,8 +86,8 @@ def get_standings():
 def get_oauth_token():
 
     headers = request.headers
-    for key, value in headers.items():
-        logger.debug(f'Key: {key}, Value: {value}')
+    # for key, value in headers.items():
+    #    logger.debug(f'Key: {key}, Value: {value}')
     logger.info('Calling get_oauth_token')
     get_oauth_token_url = 'http://curryware-yahoo-api:8087/YahooApi/GetOAuthToken'
     logger.info('get_oauth_token_url: {}'.format(get_oauth_token_url))
@@ -95,9 +95,8 @@ def get_oauth_token():
         response = requests.get(get_oauth_token_url, timeout=10)
         if response.status_code != 200:
             logger.error('Error getting oauth token!')
-        else:
-            response_json = response.json()
-            return response_json
+            return 'Error getting oauth token!'
+        return response.text
     except HTTPError as httpError:
         logger.error(httpError)
     except JSONDecodeError as decodeError:
