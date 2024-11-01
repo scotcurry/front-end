@@ -1,0 +1,53 @@
+<header>
+  <h1>Fantasy Football League</h1>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Standings</a></li>
+      <li><a href="#">Scores</a></li>
+      <li><a href="#">My Team</a></li>
+      <li><a href="#">League Rules</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <img src="hero-image.jpg" alt="Fantasy Football Hero Image">
+      <h2>Welcome to the League!</h2>
+      <p>Check out the latest scores, standings, and more.</p>
+    </section>
+
+    <section class="standings">
+      <h2>Standings</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Logo</th>
+              <th>Manager</th>
+              <th>Felo Score</th>
+              <th>Total Points</th>
+              <th>Wins</th>
+              <th>Losses</th>
+            </tr>
+          </thead>
+          {%  for current_team in all_teams %}
+          <tbody>
+            <tr>
+              <td>{{ current_team.TeamRank }}</td>
+              <td>{{ current_team.TeamName }}</td>
+              <td>
+                <img src="{{ current_team.TeamLogo }}" alt="Logo" width="50" height="50" class="logo-picture">
+              </td>
+              <td>{{ current_team.ManagerNickName }}</td>
+              <td>{{ current_team.ManagerFeloScore }}</td>
+              <td>{{ current_team.TeamTotalPoints }}</td>
+              <td>{{ current_team.TeamWins }}</td>
+              <td>{{ current_team. TeamLosses }}</td>
+            </tr>
+          </tbody>
+      </table>
+    </section>
+  </main>
+</header>
