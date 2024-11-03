@@ -1,5 +1,4 @@
 import os
-from crypt import methods
 from json import JSONDecodeError
 
 import requests
@@ -12,6 +11,8 @@ from flask import Flask, render_template, request
 from ddtrace import tracer
 from ddtrace.runtime import RuntimeMetrics
 from urllib3.exceptions import HTTPError
+
+from stub_creators.team_standings_stub import create_team_standings_stub
 
 RuntimeMetrics.enable()
 
@@ -69,17 +70,26 @@ def get_teams():
 @app.route('/getstandings', methods=['GET'])
 def get_standings():
 
-    logger.info('Calling get_standings')
-    get_standings_url = 'http://curryware-yahoo-api:8087/YahooApi/GetLeagueStandings'
-    logger.info('get_standings_url: {}'.format(get_standings_url))
     response_text = ''
-    try:
-        response = requests.get(get_standings_url, timeout=10)
-        response_text = response.text
-    except HTTPError as httpError:
-        logger.error(httpError)
+    logger.info('Calling get_standings')
+    if dev_environment == 'true':
+        response_text = teams = create_team_standings_stub()
+    else:
+        get_standings_url = 'http://curryware-yahoo-api:8087/YahooApi/GetLeagueStandings'
+        logger.info('get_standings_url: {}'.format(get_standings_url))
 
-    return response_text
+        try:
+            response = requests.get(get_standings_url, timeout=10)
+            response_text = response.json()
+        except HTTPError as httpError:
+            logger.error(httpError)
+
+    return render_template('standings.html', all_teams=response_text, title='Standings')
+
+
+@app.route('/gettransactions', methods=['GET'])
+def get_transactions():
+    return 'Work in Progress'
 
 
 @app.route('/getoauthtoken', methods=['GET'])

@@ -1,3 +1,4 @@
+{% extends "layout.html" %}
 <header>
   <h1>Fantasy Football League</h1>
   <nav>
@@ -32,8 +33,8 @@
               <th>Losses</th>
             </tr>
           </thead>
-          {%  for current_team in all_teams %}
           <tbody>
+          {%  for current_team in all_teams %}
             <tr>
               <td>{{ current_team.TeamRank }}</td>
               <td>{{ current_team.TeamName }}</td>
@@ -46,6 +47,7 @@
               <td>{{ current_team.TeamWins }}</td>
               <td>{{ current_team. TeamLosses }}</td>
             </tr>
+          {% endfor %}
           </tbody>
       </table>
     </section>
