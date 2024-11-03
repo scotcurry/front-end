@@ -39,6 +39,7 @@ logger.level = logging.DEBUG
 
 @tracer.wrap()
 @app.route('/')
+@app.route('/index')
 def index_page():
     logger.info('Launching app!')
     local_time = datetime.datetime.now(timezone('US/Eastern'))
@@ -48,12 +49,14 @@ def index_page():
                                      str(local_time.year), str(local_time.year))
     current_time = '{}:{}:{}'.format(str(local_time.hour), str(local_time.minute),
                                      str(local_time.second))
+    app_root_path = request.base_url
 
     log_environment_variable = os.environ.get('DD_LOGS_INJECTION')
 
     return render_template('index.html', title='Index Page', current_time=current_time,
                            current_date=current_date, user_agent=user_agent,
-                           logs_injection_variable=log_environment_variable)
+                           logs_injection_variable=log_environment_variable,
+                           app_root_path=app_root_path)
 
 
 @app.route('/getteams', methods=['GET'])
@@ -166,8 +169,3 @@ def create_dora_incident_event():
 
     if datadog_service != '' and datadog_team != '':
         dora_json = {'dora': 'input'}
-
-
-    # try:
-    #     dora_incident_url = 'http://curryware-dora-webhook:8000/create_dora_incident'
-    #     response = requests.get(dora_incident_url, timeout=10)
