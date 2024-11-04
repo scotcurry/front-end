@@ -13,6 +13,7 @@ from ddtrace.runtime import RuntimeMetrics
 from urllib3.exceptions import HTTPError
 
 from stub_creators.team_standings_stub import create_team_standings_stub
+from helpers.uri_helper import uri_to_path_valid_path
 
 RuntimeMetrics.enable()
 
@@ -49,7 +50,9 @@ def index_page():
                                      str(local_time.year), str(local_time.year))
     current_time = '{}:{}:{}'.format(str(local_time.hour), str(local_time.minute),
                                      str(local_time.second))
-    app_root_path = request.base_url
+    app_root_path = uri_to_path_valid_path(request.base_url, dev_environment)
+
+    logger.info('App root path: {}'.format(app_root_path))
 
     log_environment_variable = os.environ.get('DD_LOGS_INJECTION')
 
