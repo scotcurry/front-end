@@ -73,6 +73,8 @@ def get_teams():
 @app.route('/getstandings', methods=['GET'])
 def get_standings():
 
+    app_path_root = uri_to_path_valid_path(request.base_url, dev_environment)
+    logger.info('App root path: {}'.format(app_path_root))
     response_text = ''
     logger.info('Calling get_standings')
     if dev_environment == 'true':
@@ -88,7 +90,8 @@ def get_standings():
         except HTTPError as httpError:
             logger.error(httpError)
 
-    return render_template('standings.html', all_teams=response_text, title='Standings')
+    return render_template('standings.html', all_teams=response_text,
+                           title='Standings', app_root_path=app_path_root)
 
 
 @app.route('/gettransactions', methods=['GET'])
