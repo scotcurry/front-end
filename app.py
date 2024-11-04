@@ -44,7 +44,6 @@ logger.level = logging.DEBUG
 def index_page():
     logger.info('Launching app!')
     local_time = datetime.datetime.now(timezone('US/Eastern'))
-    user_agent = request.headers.get('User-Agent')
     # logger.info('User agent: {}'.format(user_agent))
     current_date = '{}/{}/{}'.format(str(local_time.month), str(local_time.day),
                                      str(local_time.year), str(local_time.year))
@@ -52,14 +51,12 @@ def index_page():
                                      str(local_time.second))
     app_root_path = uri_to_path_valid_path(request.base_url, dev_environment)
 
+    logger.info('Referrer: {}'.format(request.referrer))
     logger.info('App root path: {}'.format(app_root_path))
 
-    log_environment_variable = os.environ.get('DD_LOGS_INJECTION')
-
-    return render_template('index.html', title='Index Page', current_time=current_time,
-                           current_date=current_date, user_agent=user_agent,
-                           logs_injection_variable=log_environment_variable,
-                           app_root_path=app_root_path)
+    return render_template('index.html', title='Index Page',
+                           current_time=current_time, current_date=current_date,
+                           referrer=request.referrer, app_root_path=app_root_path)
 
 
 @app.route('/getteams', methods=['GET'])
@@ -79,7 +76,7 @@ def get_standings():
     response_text = ''
     logger.info('Calling get_standings')
     if dev_environment == 'true':
-        response_text = teams = create_team_standings_stub()
+        response_text = create_team_standings_stub()
     else:
         get_standings_url = 'http://curryware-yahoo-api:8087/YahooApi/GetLeagueStandings'
         logger.info('get_standings_url: {}'.format(get_standings_url))
@@ -87,6 +84,7 @@ def get_standings():
         try:
             response = requests.get(get_standings_url, timeout=10)
             response_text = response.json()
+            logger.info('getstandings - Response Text: {0}'.format(response_text))
         except HTTPError as httpError:
             logger.error(httpError)
 

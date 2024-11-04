@@ -2,15 +2,11 @@
 {% block title %}{{ super() }}Index Page{% endblock %}
 {% block content %}
 <article>
-  <div class="article-settings">
+  <div class="container-fluid d-flex flex-column align-items-center">
     <p>Current Date: {{  current_date }}</p>
     <p>Current Time: {{ current_time }}</p>
-    <p class="font-weight-bold">DD_LOGS_INJECTION: {{ logs_injection_variable }}</p>
-    <p>User Agent: {{ user_agent }}</p>
-    <p class="lead">Hit refresh to update the time (and send a new trace to Datadog)</p>
+    <p>Referrer: {{ referrer }}</p>
     <p>App Root Path: {{ app_root_path }}</p>
-    <a href="./getteams">Get All Teams</a>
-    <a href="./getstandings">Get League Standings</a>
   </div>
 </article>
 {% endblock %}
