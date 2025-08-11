@@ -89,6 +89,7 @@ def get_standings():
             logger.info('getstandings - Response Text: {0}'.format(response_text))
         except HTTPError as httpError:
             logger.error(httpError)
+            return httpError
 
     return render_template('standings.html', all_teams=response_text,
                            title='Standings', app_root_path=app_path_root)
@@ -116,8 +117,10 @@ def get_oauth_token():
         return response.text
     except HTTPError as httpError:
         logger.error(httpError)
+        return None
     except JSONDecodeError as decodeError:
         logger.error('JSON Decode Error: {}'.format(decodeError.msg))
+        return None
 
 
 @app.route('/throw_error', methods=['GET'])

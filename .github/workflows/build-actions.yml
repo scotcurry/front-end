@@ -41,19 +41,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_AUTH_TOKEN }}
       - name: Build and Push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64/v8
-          push: true
-          # Don't forget to set the IMAGE_NAME environment variable.
-          tags: scotcurry4/curryware-front-end:${{ github.run_number}}
-          labels: |
-            org.opencontainers.image.source=github.com/scotcurry/front-end
-            org.opencontainers.image.revision=${{ github.sha }}
-            tags.datadoghq.com/env=prod
-            tags.datadoghq.com/version=${{ github.run_number }}
-            tags.datadoghq.com/service=curryware-front-end
+        run: |
+          docker buildx build --push -t scotcurry4/curryware-front-end:${{ github.run_number }} \
+          --platform linux/amd64 \
+          --build-arg DD_VERSION=${{ github.run_number}} \
+          --build-arg DD_GIT_REPOSITORY_URL="github.com/scotcurry/front-end" \
+          --build-arg DD_GIT_COMMIT_SHA=${{ github.sha }} \
+          -f Dockerfile .
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: .
+#          platforms: linux/amd64,linux/arm64/v8
+#          push: true
+#          # Don't forget to set the IMAGE_NAME environment variable.
+#          tags: scotcurry4/curryware-front-end:${{ github.run_number}}
+#          labels: |
+#            org.opencontainers.image.source=github.com/scotcurry/front-end
+#            org.opencontainers.image.revision=${{ github.sha }}
+#            tags.datadoghq.com/env=prod
+#            tags.datadoghq.com/version=${{ github.run_number }}
+#            tags.datadoghq.com/service=curryware-front-end
 
       # Check out the K8s manifest files for updating
       - name: Get manifest files
